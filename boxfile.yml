@@ -1,0 +1,36 @@
+run.config:
+  engine: nodejs
+
+  # add extra packages
+  extra_packages:
+    - nginx
+
+#
+# deploy.config:
+#   extra_steps:
+#     - COMMAND TO COMPILE ASSETS
+#
+#   before_live:
+#     web.main:
+#       - COMMAND TO MIGRATE DB
+
+# add a database
+data.db:
+  image: nanobox/postgresql
+
+# add a web component and give it a "start" command
+web.main:
+
+  # add directories that sails needs write access to
+  writable_dirs:
+    - .tmp
+    - views
+
+  #
+  start:
+    nginx: nginx -c /app/config/nginx.conf
+    sails: node app.js
+
+# add a worker component and give it a "start" command
+# worker.main:
+#   start: COMMAND TO START WORKER
